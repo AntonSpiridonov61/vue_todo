@@ -8,7 +8,7 @@
       @remove="$emit('remove', task)"
     />
   </div>
-  <h2 v-else>Список пуст</h2>
+  <h3 v-else>Список пуст</h3>
 </template>
 
 <script>

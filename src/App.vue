@@ -1,13 +1,22 @@
 <template>
   <div class="app">
-    <my-button class="btn_create" @click="showDialog">Создать задачу</my-button>
-    <my-dialog v-model:show="dialogVisible">
+    <h2>TODO List</h2>
+    <div class="app_btns">
+      <my-button @click="showDialog">Создать задачу</my-button>
+      <my-select v-model="selectedSort" :options="sortOptions"/>
+    </div>
+    <my-dialog v-model:show="dialogCreateVisible">
       <task-form
         @create="createTask"
       />
     </my-dialog>
+    <my-dialog v-model:show="dialogEditVisible">
+      <task-form
+        @edit="editTask"
+      />
+    </my-dialog>
     <task-list 
-      :tasks="tasks"
+      :tasks="sortedTasks"
       @remove="removeTask"
     />
   </div>
@@ -23,19 +32,35 @@ export default {
   data() {
     return {
       tasks: [],
-      dialogVisible: false
+      dialogCreateVisible: false,
+      dialogEditVisible: false,
+      selectedSort: "",
+      sortOptions: [
+        {value: "title", name: "По названию"},
+        {value: "body", name: "По описанию"},
+      ]
     }
   },
   methods: {
     createTask(task) {
       this.tasks.push(task);
-      this.dialogVisible = false;
+      this.dialogCreateVisible = false;
     },
     removeTask(task) {
       this.tasks = this.tasks.filter(item => item.id !== task.id);
     },
+    editTask(task) {
+      
+    },
     showDialog() {
-      this.dialogVisible = true;
+      this.dialogCreateVisible = true;
+    }
+  },
+  computed: {
+    sortedTasks() {
+      return [...this.tasks].sort((task1, task2) => {
+        return task1[this.selectedSort]?.localeCompare(task2[this.selectedSort])
+      })
     }
   }
 }
@@ -55,7 +80,9 @@ export default {
   padding: 20px;
 }
 
-.btn_create {
+.app_btns {
   margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

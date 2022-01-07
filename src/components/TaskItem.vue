@@ -1,11 +1,14 @@
 <template>
   <div class="task">
     <div>
+      <input type="checkbox" id="checkbox" v-model="is_done">
       <div><strong>Название:</strong> {{ task.title }}</div>
       <div><strong>Описание:</strong> {{ task.body }}</div>
+      <div><strong>Приоритет:</strong> {{ task.priority }}</div>
     </div>
     <div>
       <div class="task_btns">
+        <my-button @click="$emit('edit', task)">Редактировать</my-button>
         <my-button @click="$emit('remove', task)">Удалить</my-button>
       </div>
     </div>
