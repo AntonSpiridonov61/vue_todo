@@ -1,10 +1,10 @@
 <template>
   <div class="task">
     <div>
-      <input type="checkbox" id="checkbox" v-model="is_done">
+      <input type="checkbox" v-model="task.is_done">
       <div><strong>Название:</strong> {{ task.title }}</div>
       <div><strong>Описание:</strong> {{ task.body }}</div>
-      <div><strong>Приоритет:</strong> {{ task.priority }}</div>
+      <div><strong>Приоритет:</strong> {{ task.priority.name }}</div>
     </div>
     <div>
       <div class="task_btns">
@@ -34,9 +34,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.task_btns {
-
 }
 </style>

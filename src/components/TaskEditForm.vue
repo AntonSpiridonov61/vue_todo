@@ -1,6 +1,7 @@
 <template>
   <form @submit.prevent>
-    <h4>Добавить задачу</h4>
+    <h4>Изменить задачу</h4>
+    <input type="checkbox" v-model="task.is_done">
     <input
       v-model="task.title"
       class="input"
@@ -14,7 +15,7 @@
       placeholder="Описание"
     />
     <my-radio v-model="task.priority" :radioOptions="radioOptions"/>
-    <my-button class="btn_form" @click="createTask">Добавить</my-button>
+    <my-button class="btn_form" @click="saveTask">Сохранить</my-button>
   </form>
 </template>
 
@@ -23,10 +24,10 @@ export default {
   data() {
     return {
       task: {
-        title: "",
-        body: "",
-        priority: {},
-        is_done: false,
+        title: '',
+        body: '', 
+        priority: {}, 
+        is_done: false
       },
       radioOptions: [
         {value: "1", name: "Низкий"},
@@ -35,17 +36,25 @@ export default {
       ],
     };
   },
+  props: {
+    selectTask: {
+      type: Object,
+      required: true,
+    }
+  },
+  mounted() {
+    this.task.id = this.selectTask.id;
+    this.task.title = this.selectTask.title;
+    this.task.body = this.selectTask.body;
+    this.task.priority = this.selectTask.priority;
+    this.task.is_done = this.selectTask.is_done;
+  },
   methods: {
-    createTask() {
-      this.task.id = Date.now();
-      this.$emit("create", this.task);
-      this.task = {
-        title: "",
-        body: "",
-        priority: {}
-      };
+    saveTask() {
+      this.$emit('saveTask', this.task);
     },
   }
+
 };
 </script>
 
@@ -60,6 +69,17 @@ form {
   border: 1px solid teal;
   padding: 10px 15px;
   margin-top: 15px;
+}
+
+.radio_group {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  margin-top: 15px;
+}
+
+.radio {
+  margin-top: 5px;
 }
 
 .btn_form {

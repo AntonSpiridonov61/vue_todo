@@ -5,6 +5,7 @@
       v-for="task in tasks" 
       :task="task" 
       :key="task.id"
+      @edit="$emit('edit', task)"
       @remove="$emit('remove', task)"
     />
   </div>
