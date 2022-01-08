@@ -8,7 +8,7 @@
     </div>
     <div>
       <div class="task_btns">
-        <my-button @click="$emit('edit', task)">Редактировать</my-button>
+        <my-button @click="$emit('showEditDialog', task)">Редактировать</my-button>
         <my-button @click="$emit('remove', task)">Удалить</my-button>
       </div>
     </div>

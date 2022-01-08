@@ -2,23 +2,23 @@
   <div class="app">
     <h2>TODO List</h2>
     <div class="app_btns">
-      <my-button @click="showDialog">Создать задачу</my-button>
+      <my-button @click="showCreateDialog">Создать задачу</my-button>
       <my-select v-model="selectedSort" :options="sortOptions"/>
     </div>
     <my-dialog v-model:show="dialogCreateVisible">
-      <task-form
+      <task-create-form
         @create="createTask"
       />
     </my-dialog>
     <my-dialog v-model:show="dialogEditVisible">
       <task-edit-form
-        :selectTask="selectTask"
-        @saveTask="saveTask"
+        :selectedTask="selectedTask"
+        @edit="editTask"
       />
     </my-dialog>
     <task-list 
       :tasks="sortedTasks"
-      @edit="editTask"
+      @showEditDialog="showEditDialog"
       @remove="removeTask"
     />
   </div>
@@ -26,16 +26,16 @@
 
 <script>
 import TaskList from "./components/TaskList";
-import TaskForm from "./components/TaskForm";
+import TaskCreateForm from "./components/TaskCreateForm";
 import TaskEditForm from "./components/TaskEditForm";
 export default {
   components: {
-    TaskList, TaskForm, TaskEditForm
+    TaskList, TaskCreateForm, TaskEditForm
   },
   data() {
     return {
       tasks: [],
-      selectTask: {},
+      selectedTask: {},
       dialogCreateVisible: false,
       dialogEditVisible: false,
       selectedSort: "",
@@ -48,6 +48,9 @@ export default {
     }
   },
   methods: {
+    showCreateDialog() {
+      this.dialogCreateVisible = true;
+    },
     createTask(task) {
       this.tasks.push(task);
       this.saveLocalStorageTodos();
@@ -57,11 +60,11 @@ export default {
       this.tasks = this.tasks.filter(item => item.id !== task.id);
       this.saveLocalStorageTodos();
     },
-    editTask(task) {
-      this.selectTask = task;
+    showEditDialog(task) {
+      this.selectedTask = task;
       this.dialogEditVisible = true;
     },
-    saveTask(editTask) {
+    editTask(editTask) {
       const Task = this.tasks.find(task => task.id === editTask.id)
       Task.title = editTask.title;
       Task.body = editTask.body;
@@ -70,9 +73,6 @@ export default {
       
       this.saveLocalStorageTodos();
       this.dialogEditVisible = false;
-    },
-    showDialog() {
-      this.dialogCreateVisible = true;
     },
     saveLocalStorageTodos() {
       localStorage.setItem("tasks", JSON.stringify(this.tasks));

@@ -15,7 +15,7 @@
       placeholder="Описание"
     />
     <my-radio v-model="task.priority" :radioOptions="radioOptions"/>
-    <my-button class="btn_form" @click="saveTask">Сохранить</my-button>
+    <my-button class="btn_form" @click="edit">Сохранить</my-button>
   </form>
 </template>
 
@@ -37,21 +37,21 @@ export default {
     };
   },
   props: {
-    selectTask: {
+    selectedTask: {
       type: Object,
       required: true,
     }
   },
   mounted() {
-    this.task.id = this.selectTask.id;
-    this.task.title = this.selectTask.title;
-    this.task.body = this.selectTask.body;
-    this.task.priority = this.selectTask.priority;
-    this.task.is_done = this.selectTask.is_done;
+    this.task.id = this.selectedTask.id;
+    this.task.title = this.selectedTask.title;
+    this.task.body = this.selectedTask.body;
+    this.task.priority = this.selectedTask.priority;
+    this.task.is_done = this.selectedTask.is_done;
   },
   methods: {
-    saveTask() {
-      this.$emit('saveTask', this.task);
+    edit() {
+      this.$emit('edit', this.task);
     },
   }
 
