@@ -4,6 +4,7 @@
     <div class="app_btns">
       <my-button @click="showCreateDialog">Создать задачу</my-button>
       <my-select v-model="selectedSort" :options="sortOptions"/>
+      <my-button @click="clearAllTasks">Удалить все записи</my-button>
     </div>
     <my-dialog v-model:show="dialogCreateVisible">
       <task-create-form
@@ -40,11 +41,18 @@ export default {
       dialogEditVisible: false,
       selectedSort: "",
       sortOptions: [
+        {value: "all", name: "Все"},
+        {value: "done", name: "Выполненые"},
+        {value: "active", name: "Активные"},
         {value: "title", name: "По названию"},
         {value: "body", name: "По описанию"},
-        {value: "id", name: "По id"},
-        {value: "priority.value", name: "По приоритету"},
+        {value: "priority", name: "По приоритету"}
       ],
+    }
+  },
+  mounted() {
+    if (localStorage.getItem("tasks")) {
+      this.tasks = JSON.parse(localStorage.getItem("tasks"));
     }
   },
   methods: {
@@ -53,12 +61,12 @@ export default {
     },
     createTask(task) {
       this.tasks.push(task);
-      this.saveLocalStorageTodos();
+      this.saveLocalStorageTasks();
       this.dialogCreateVisible = false;
     },
     removeTask(task) {
       this.tasks = this.tasks.filter(item => item.id !== task.id);
-      this.saveLocalStorageTodos();
+      this.saveLocalStorageTasks();
     },
     showEditDialog(task) {
       this.selectedTask = task;
@@ -71,26 +79,42 @@ export default {
       Task.priority = editTask.priority;
       Task.is_done = editTask.is_done;
       
-      this.saveLocalStorageTodos();
+      this.saveLocalStorageTasks();
       this.dialogEditVisible = false;
     },
-    saveLocalStorageTodos() {
+    clearAllTasks() {
+      this.tasks = [];
+      this.saveLocalStorageTasks();
+    },
+    saveLocalStorageTasks() {
       localStorage.setItem("tasks", JSON.stringify(this.tasks));
       this.tasks = JSON.parse(localStorage.getItem("tasks"));
     }
   },
   computed: {
     sortedTasks() {
-      return [...this.tasks].sort((task1, task2) => {
-        return task1[this.selectedSort]?.localeCompare(task2[this.selectedSort])
-      })
+      switch (this.selectedSort) {
+        case 'done':
+          return [...this.tasks].filter((task) => task.is_done);
+          // breask;
+        case 'active':
+          return [...this.tasks].filter((task) => !task.is_done);
+          // breask;
+        case 'priority':
+          return [...this.tasks].sort((task1, task2) => {
+            return task2.priority.value - task1.priority.value
+          })
+        case 'title':
+        case 'body':
+          return [...this.tasks].sort((task1, task2) => {
+            return task1[this.selectedSort]?.localeCompare(task2[this.selectedSort])
+          })
+        case 'all':
+        default:
+          return [...this.tasks]
+      }
     }
-  },
-  mounted() {
-    if (localStorage.getItem("tasks")) {
-      this.tasks = JSON.parse(localStorage.getItem("tasks"));
-    }
-  },
+  }
 }
 </script>
 
