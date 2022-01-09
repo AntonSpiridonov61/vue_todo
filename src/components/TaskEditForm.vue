@@ -1,21 +1,27 @@
 <template>
   <form @submit.prevent>
-    <h4>Изменить задачу</h4>
-    <input type="checkbox" v-model="task.is_done">
+    <label class="form-check-label">
+      Состояние:
+      <input class="form-check-input" type="checkbox" v-model="task.is_done">
+    </label>
     <input
       v-model="task.title"
-      class="input"
+      class="input-group input-group-lg my-input"
       type="text"
       placeholder="Название"
     />
     <input
       v-model="task.body"
-      class="input"
+      class="input-group input-group-lg my-input"
       type="text"
       placeholder="Описание"
     />
     <my-radio v-model="task.priority" :radioOptions="radioOptions"/>
-    <my-button class="btn_form" @click="edit">Сохранить</my-button>
+    <my-button 
+      class="btn btn-outline-success" 
+      style="margin-top: 15px;"
+      @click="edit">Сохранить
+    </my-button>
   </form>
 </template>
 
@@ -64,26 +70,10 @@ form {
   flex-direction: column;
 }
 
-.input {
-  width: 100%;
-  border: 1px solid teal;
-  padding: 10px 15px;
-  margin-top: 15px;
-}
-
-.radio_group {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 15px;
-  margin-top: 15px;
-}
-
-.radio {
-  margin-top: 5px;
-}
-
-.btn_form {
-  align-self: flex-end;
-  margin-top: 15px;
+.my-input {
+  min-width: 300px;
+  min-height: 30px;
+  margin-top: 10px;
+  padding: 10px;
 }
 </style>

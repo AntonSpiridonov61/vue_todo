@@ -1,5 +1,9 @@
 <template>
-  <select v-model="modelValue" @change="changeOption">
+  <select 
+    class="form-select form-select-sm"
+    style="width: 200px"
+    v-model="modelValue" 
+    @change="changeOption">
     <option disabled value="">Выберете из списка</option>
     <option 
       v-for="option in options"  

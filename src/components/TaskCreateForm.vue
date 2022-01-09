@@ -1,20 +1,23 @@
 <template>
   <form @submit.prevent>
-    <h4>Добавить задачу</h4>
     <input
       v-model="task.title"
-      class="input"
+      class="input-group input-group-lg my-input"
       type="text"
       placeholder="Название"
     />
     <input
       v-model="task.body"
-      class="input"
+      class="input-group input-group-lg my-input"
       type="text"
       placeholder="Описание"
     />
     <my-radio v-model="task.priority" :radioOptions="radioOptions"/>
-    <my-button class="btn_form" @click="createTask">Добавить</my-button>
+    <my-button 
+      class="btn btn-outline-success"
+      style="margin-top: 15px;" 
+      @click="createTask">Добавить
+    </my-button>
   </form>
 </template>
 
@@ -55,15 +58,10 @@ form {
   flex-direction: column;
 }
 
-.input {
-  width: 100%;
-  border: 1px solid teal;
-  padding: 10px 15px;
-  margin-top: 15px;
-}
-
-.btn_form {
-  align-self: flex-end;
-  margin-top: 15px;
+.my-input {
+  min-width: 300px;
+  min-height: 40px;
+  margin-top: 10px;
+  padding: 10px;
 }
 </style>

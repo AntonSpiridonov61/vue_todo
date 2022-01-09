@@ -11,11 +11,8 @@ export default {
 </script>
 
 <style>
+
 .btn {
-  /* align-self: flex-end; */
-  padding: 10px 15px;
-  background: none;
-  color: teal;
-  border: 1px solid teal;
+  margin: 7px;
 }
 </style>

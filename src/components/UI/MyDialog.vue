@@ -1,7 +1,15 @@
 <template>
-  <div class="dialog" v-if="show" @click="hideDialog">
-    <div @click.stop class="dialog_content">
-      <slot></slot>
+  <div class="my-modal" v-if="show" @click="hideDialog">
+    <div class="modal-dialog" @click.stop>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> {{ title }} </h5>
+          <button class="btn-close" @click="hideDialog"></button>
+        </div>
+        <div class="modal-body">
+          <slot></slot>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,6 +21,10 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    title: {
+      type: String,
+      default: ""
     }
   },
   methods: {
@@ -24,22 +36,14 @@ export default {
 </script>
 
 <style>
-.dialog {
+.my-modal {
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
   display: flex;
-}
-
-.dialog_content {
-  margin: auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 12px;
-  min-height: 50px;
-  min-width: 300px;
+  z-index: 1;
 }
 </style>

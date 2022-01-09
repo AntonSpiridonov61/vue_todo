@@ -1,7 +1,6 @@
 <template>
-  <div v-if="tasks.length > 0">
-    <h3>Список задач</h3>
-    <task-item 
+  <div class="list-group" v-if="tasks.length > 0">
+    <task-item
       v-for="task in tasks" 
       :task="task" 
       :key="task.id"
@@ -9,7 +8,7 @@
       @remove="$emit('remove', task)"
     />
   </div>
-  <h3 v-else>Список пуст</h3>
+  <h4 v-else>Список пуст...</h4>
 </template>
 
 <script>

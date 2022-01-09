@@ -1,8 +1,12 @@
 <template>
   <div class="radio_group">
-    <label v-for="option in radioOptions" :key="option.value">
+    <label 
+      v-for="option in radioOptions" 
+      :key="option.value"
+      class="form-check-label"
+    >
       <input
-        class="radio"
+        class="form-check-input"
         type="radio"
         :value="option"
         v-model="modelValue"
@@ -37,11 +41,6 @@ export default {
 .radio_group {
   display: flex;
   flex-direction: column;
-  padding: 10px 15px;
   margin-top: 15px;
-}
-
-.radio {
-  margin-top: 5px;
 }
 </style>

@@ -1,17 +1,24 @@
 <template>
-  <div class="app">
+  <div class="app container-sm">
     <h2>TODO List</h2>
-    <div class="app_btns">
-      <my-button @click="showCreateDialog">Создать задачу</my-button>
+    <div class="row">
+      <my-button class="btn-success col-auto me-auto" @click="showCreateDialog">Создать задачу</my-button>
       <my-select v-model="selectedSort" :options="sortOptions"/>
-      <my-button @click="clearAllTasks">Удалить все записи</my-button>
+      <my-button class="btn-danger col-auto" @click="clearAllTasks">Удалить все записи</my-button>
     </div>
-    <my-dialog v-model:show="dialogCreateVisible">
+    <br><h3>Список задач</h3>
+    <my-dialog 
+      v-model:show="dialogCreateVisible"
+      :title="createTitle"
+      >
       <task-create-form
         @create="createTask"
       />
     </my-dialog>
-    <my-dialog v-model:show="dialogEditVisible">
+    <my-dialog 
+      v-model:show="dialogEditVisible"
+      :title="editTitle"
+      >
       <task-edit-form
         :selectedTask="selectedTask"
         @edit="editTask"
@@ -48,6 +55,8 @@ export default {
         {value: "body", name: "По описанию"},
         {value: "priority", name: "По приоритету"}
       ],
+      createTitle: "Создание задачи",
+      editTitle: "Изменение задачи"
     }
   },
   mounted() {
@@ -96,10 +105,8 @@ export default {
       switch (this.selectedSort) {
         case 'done':
           return [...this.tasks].filter((task) => task.is_done);
-          // breask;
         case 'active':
           return [...this.tasks].filter((task) => !task.is_done);
-          // breask;
         case 'priority':
           return [...this.tasks].sort((task1, task2) => {
             return task2.priority.value - task1.priority.value
@@ -130,11 +137,5 @@ export default {
 
 .app {
   padding: 20px;
-}
-
-.app_btns {
-  margin: 15px 0;
-  display: flex;
-  justify-content: space-between;
 }
 </style>
